@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# Utlidad para retroceder direcotorios en Linux 
+# Dependiendo de qué número ponga el usuario
+
+rojo="\e[0;31m\033[1m"
+negrita="\e[1m"
+sincolor="\033[0m\e[0m"
+
+numero=$1
+
+# Función de ayuda
+function ayuda() {
+    echo -e "$negrita Pon $0 con el numero de directorios que quieras retroceder ${sincolor}"
+    echo -e "$negrita Poner un punto al principio para ejecutar en la shell actual${sincolor}\n"
+    echo -e "$rojo [*] Ejemplo: $sincolor $negrita . bk 3 $sincolor"
+    echo -e "$rojo [*] Ejemplo: $sincolor $negrita . bk 6 $sincolor"
+}
+
+# Ayuda
+if [ $# -eq 0 ] || [ "$1" == "-h" ]; then
+        ayuda
+        exit 1 
+fi
+
+#Verificar si es numero o no 
+if [ -z "$numero" ]; then
+    echo "Debe proporcionar un número de directorios para retroceder."
+        exit 1
+fi
+
+# Verificar si es un número
+if ! [[ "$1" =~ ^[0-9]+$ ]]; then
+        echo "El argumento debe ser un número entero."
+        exit 1 
+fi
+
+if [ "$numero" -gt "10" ]; then
+	echo -e "$negrita El limite es de $rojo 10 $sincolor"
+	exit 1 
+fi
+# Número de directorios a retroceder
+
+# Cambiar de directorio
+for ((i=0; i<$numero; i++)); do 
+        cd ..
+done
